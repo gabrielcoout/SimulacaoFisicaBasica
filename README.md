@@ -1,6 +1,9 @@
 # SimulacaoFisicaBasica
 
-### AUTOR: Gabriel Coutinho Chaves nUSP15111760 gabriel.coutinho.chaves@usp.br 
+### Autor: Gabriel Coutinho Chaves  
+**nUSP:** 15111760  
+**Email:** gabriel.coutinho.chaves@usp.br  
+
 
 ## Descrição Básica do Projeto
 Este projeto é uma simulação interativa criada para explorar os conceitos de movimento em curvas e planos inclinados, sob a influência de forças como gravidade e atrito. O objetivo é oferecer uma representação visual que permita entender o comportamento de um corpo deslizando ao longo de uma superfície curva, que no projeto em questão foi definida por uma Curva de Bézier de controle ajustável.
@@ -33,31 +36,34 @@ O programa foi modularizado em diferentes arquivos ou scripts Python para melhor
 ## Conceitos de Física e Modelo Matemático
 O projeto utiliza conceitos fundamentais de física e matemática para modelar o movimento de um corpo (simplificado por um circulo) representado pela classe Ball em interação com uma curva de Bézier ajustável. Os principais conceitos e abordagens matemáticas envolvidos são:
 
-### Movimento e Dinâmica
-A esfera é submetida a forças gravitacionais e de atrito que afetam sua velocidade e posição ao longo do tempo. Essas forças são aplicadas através de cálculos baseados nas leis de Newton:
+### Gravidade  
+No código, a gravidade é implementada adicionando uma aceleração vertical constante à velocidade do objeto em cada quadro da simulação. Especificamente, na função `update` da classe `Ball`, a linha `self.velocity[1] += GRAVITY * dt` aplica essa força ao vetor de velocidade vertical no objeto. O valor de gravidade (`GRAVITY`) é ajustável, permitindo observar os efeitos dessa força em diferentes cenários, como ambientes de baixa gravidade ou alta gravidade. Na execução principal, a aceleração é calculada com base na constante `BASE_GRAVITY`, que converte a gravidade em metros por segundo ao sistema de unidades da simulação. O valor de gravidade pode ser ajustado dinamicamente pelo usuário através de um controle deslizante (`slider1`). No loop principal, a gravidade é recalculada com base na porcentagem definida no slider (`gravity = slider1.get_percentage() * BASE_GRAVITY`).  
 
-- Gravidade: Representada como uma força constante que acelera a esfera verticalmente para baixo. A aceleração gravitacional é ajustável no programa.
-- Atrito: Simula a resistência do movimento ao longo da curva. Uma vez que a Foça de Atrito é proporcional à velocidade, o atrito aqui é simulado reduzindo proporcionalmente a velocidade tangencial da esfera.
+### Atrito  
+O atrito, no contexto do código, é modelado como uma força proporcional à velocidade tangencial do objeto. Após projetar a velocidade no vetor tangente da curva, a função `update` aplica o atrito pela multiplicação do vetor velocidade por um fator redutor, `self.velocity *= (1 - FRICTION)`. Esse cálculo simula a resistência que desacelera o movimento ao longo da curva. O fator de atrito (`FRICTION`) também pode ser ajustado em tempo real pelo usuário. Ele pode ser ajustado dinamicamente por um controle deslizante (`slider2`). No loop principal, o atrito é recalculado com base na porcentagem definida pelo slider (`friction = slider2.get_percentage() / 200`). Essa força de resistência é aplicada ao vetor de velocidade após projetar o movimento da bola no vetor tangente da curva de Bézier.  
 
-Para descrever o deslizamento do corpo, o passo essencial foi encontrar o vetor tangente à Curva de Bezier no ponto de contato com o objeto. Primeiramente, para definir o ponto de contato do corpo com a curva, utilizou-se a norma euclidiana para medir a distância, seguida da minimização dessa distância para uma discretização da curva. Tendo em mãos o ponto mais próximo, o cálculo da tangente foi feito a partir uma aproximação da derivada da curva naquele ponto, utilizando o quociente diferencial do eixo x e y. 
+### Interação com a Curva  
+A interação entre a bola e a curva de Bézier é central para a simulação e é gerenciada em várias etapas:  
 
-A posição do objeto é ajustada para evitar interpenetração, usando o vetor normal ao ponto de contato, obtido a partir da tangente da curva de bezier, pela fórmula: 
-<p align="center">
-<img 
-  src="img_readme/eq1.png"/>
-<br><p/>
-A velocidade do objeto é projetada no vetor tangente da curva, simulando deslizamento suave sobre a superfície.
+1. **Detecção do Ponto de Contato:**  
+   A posição mais próxima da bola na curva é determinada pela função `closest_point_and_tangent` da classe `BezierCurve`. Essa função amostra pontos na curva e calcula a menor distância até a posição da bola.  
 
-A curva é parametrizada utilizando o algoritmo de De Casteljau para calcular pontos intermediários e vetores tangentes. Isso permite modelar superfícies suaves e responder dinamicamente às mudanças nos pontos de controle ajustados pelo usuário.
+2. **Ajuste de Posição:**  
+   Quando a distância da bola até a curva é menor que o raio da bola, a posição da bola é ajustada para evitar interpenetração, utilizando o vetor normal ao ponto de contato.  
 
-O movimento da esfera é integrado numericamente utilizando incrementos de tempo (dt), que é tomado como o inverso do FPS (Frames Per Segundo).
+3. **Projeção da Velocidade:**  
+   Após corrigir a posição, a velocidade da bola é projetada no vetor tangente ao ponto de contato na curva, simulando deslizamento suave. Em seguida, o efeito do atrito é aplicado à velocidade projetada.  
 
-Atualização da posição com base na velocidade.
-Cálculo da interação com a curva em intervalos regulares.
-Uso de interpolação para determinar os vetores normais e tangentes, fundamentais para simular colisões e deslizamento.
-Ajustes pelo Usuário
-Os usuários podem interagir com o sistema para ajustar os parâmetros de gravidade e atrito em tempo real, utilizando sliders. Isso afeta diretamente os cálculos físicos, permitindo observar mudanças de comportamento no movimento da esfera.
+### Dinâmica do Sistema  
+O sistema opera com base no controle do tempo (`dt`), definido como o inverso do FPS (quadros por segundo). Cada quadro é processado por meio de um loop principal que realiza as seguintes operações:  
 
+- Processa eventos do usuário, como interações com sliders ou a curva de Bézier.  
+- Calcula a gravidade e o atrito com base nos controles deslizantes.  
+- Atualiza a posição e velocidade da bola com base nas forças aplicadas e na interação com a curva de Bézier.  
+- Renderiza os elementos na tela, incluindo a bola, a curva de Bézier e os controles.  
+
+### Controle da Curva de Bézier  
+A curva de Bézier é definida por pontos de controle que podem ser ajustados pelo usuário. A interação ocorre quando o usuário clica e arrasta um ponto de controle com o mouse, e a nova posição é atualizada em tempo real. A curva é renderizada suavemente usando o algoritmo de De Casteljau, e a espessura e cor da linha são personalizáveis (`width=7` e `color=GRAY`).  
 
 ## Como Usar
 
