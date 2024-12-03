@@ -1,4 +1,4 @@
-A# SimulacaoFisicaBasica
+# SimulacaoFisicaBasica
 
 ## Descrição Básica do Projeto
 Este projeto é uma simulação interativa criada para explorar os conceitos de movimento em curvas e planos inclinados, sob a influência de forças como gravidade e atrito. O objetivo é oferecer uma representação visual que permita entender o comportamento de um corpo deslizando ao longo de uma superfície curva, que no projeto em questão foi definida por uma Curva de Bézier de controle ajustável.
