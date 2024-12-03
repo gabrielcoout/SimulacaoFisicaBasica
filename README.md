@@ -42,7 +42,10 @@ A esfera é submetida a forças gravitacionais e de atrito que afetam sua veloci
 Para descrever o deslizamento do corpo, o passo essencial foi encontrar o vetor tangente à Curva de Bezier no ponto de contato com o objeto. Primeiramente, para definir o ponto de contato do corpo com a curva, utilizou-se a norma euclidiana para medir a distância, seguida da minimização dessa distância para uma discretização da curva. Tendo em mãos o ponto mais próximo, o cálculo da tangente foi feito a partir uma aproximação da derivada da curva naquele ponto, utilizando o quociente diferencial do eixo x e y. 
 
 A posição do objeto é ajustada para evitar interpenetração, usando o vetor normal ao ponto de contato, obtido a partir da tangente da curva de bezier, pela fórmula: 
-
+<p align="center">
+<img 
+  src="img_readme/eq1.png"/>
+<br><p/>
 A velocidade do objeto é projetada no vetor tangente da curva, simulando deslizamento suave sobre a superfície.
 
 A curva é parametrizada utilizando o algoritmo de De Casteljau para calcular pontos intermediários e vetores tangentes. Isso permite modelar superfícies suaves e responder dinamicamente às mudanças nos pontos de controle ajustados pelo usuário.
