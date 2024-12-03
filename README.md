@@ -1,5 +1,7 @@
 # SimulacaoFisicaBasica
 
+### AUTOR: Gabriel Coutinho Chaves nUSP15111760 gabriel.coutinho.chaves@usp.br 
+
 ## Descrição Básica do Projeto
 Este projeto é uma simulação interativa criada para explorar os conceitos de movimento em curvas e planos inclinados, sob a influência de forças como gravidade e atrito. O objetivo é oferecer uma representação visual que permita entender o comportamento de um corpo deslizando ao longo de uma superfície curva, que no projeto em questão foi definida por uma Curva de Bézier de controle ajustável.
 
@@ -40,7 +42,6 @@ A esfera é submetida a forças gravitacionais e de atrito que afetam sua veloci
 Para descrever o deslizamento do corpo, o passo essencial foi encontrar o vetor tangente à Curva de Bezier no ponto de contato com o objeto. Primeiramente, para definir o ponto de contato do corpo com a curva, utilizou-se a norma euclidiana para medir a distância, seguida da minimização dessa distância para uma discretização da curva. Tendo em mãos o ponto mais próximo, o cálculo da tangente foi feito a partir uma aproximação da derivada da curva naquele ponto, utilizando o quociente diferencial do eixo x e y. 
 
 A posição do objeto é ajustada para evitar interpenetração, usando o vetor normal ao ponto de contato, obtido a partir da tangente da curva de bezier, pela fórmula: 
-<img src="img_readme\eq1.png">
 
 A velocidade do objeto é projetada no vetor tangente da curva, simulando deslizamento suave sobre a superfície.
 
